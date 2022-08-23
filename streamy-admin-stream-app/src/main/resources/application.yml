@@ -1,0 +1,28 @@
+logging:
+    level:
+        org.springframework.cloud.stream.messaging.DirectWithAttributesChannel: DEBUG
+it:
+  dsibilio:
+    binder:
+      root: /Temp/binder/data
+    
+spring:
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+  cloud:
+    function:
+      definition: getEffortDetails
+    stream:
+      defaultBinder: rabbit
+      bindings:
+        getEffortDetails-in-0:
+          destination: sample-details-req
+          group: stream-sample-details-req
+        getEffortDetails-out-0:
+          destination: sample-details-resp
+          content-type: application/json
+          producer:
+            required-groups: gateway-sample-details-resp 

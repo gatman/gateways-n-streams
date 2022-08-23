@@ -1,0 +1,1 @@
+rabbit:org.springframework.cloud.stream.binder.rabbit.config.RabbitMessageChannelBinderConfiguration
