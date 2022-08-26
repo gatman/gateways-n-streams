@@ -37,6 +37,7 @@
 		<module>streamy-admin-common</module>
 		<module>streamy-admin-stream-app</module>
 		<module>streamy-admin-rest-app</module>
+		<module>streamy-admin-no-anno-rest-app</module>
 	</modules>
 
 	<dependencyManagement>

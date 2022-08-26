@@ -5,7 +5,7 @@ it:
   dsibilio:
     binder:
       root: /Temp/binder/data
-    
+##spring.cloud.stream.bindings.replies-in-0.destination=replies    
 spring:
   rabbitmq:
     host: "localhost"
