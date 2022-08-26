@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 import org.streamy.model.SampleDetail;
 
 import lombok.extern.slf4j.XSlf4j;
-
 @Configuration
 // @Import({SupplierConfig.class})
 @XSlf4j
@@ -61,9 +60,9 @@ public class AppConfig {
         String GET_SAMPLE_DETAILS_IN = "sample-details-resp";
 
         @Output(GET_SAMPLE_DETAILS_OUT)
-        public SubscribableChannel getEffortDetailsOut();
+        public SubscribableChannel getSampleDetailsOut();
         @Input(GET_SAMPLE_DETAILS_IN)
-        public SubscribableChannel getEffortDetailsIn();
+        public SubscribableChannel getSampleDetailsIn();
     }
 
     @Bean

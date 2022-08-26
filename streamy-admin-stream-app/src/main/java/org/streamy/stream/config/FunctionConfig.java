@@ -15,10 +15,10 @@ import lombok.extern.slf4j.XSlf4j;
 public class FunctionConfig {
 	
 	@Bean
-	Function<String, List<SampleDetail>> getEffortDetails() {
+	Function<String, List<SampleDetail>> getSampleDetails() {
 		return input -> {
 			if (log.isInfoEnabled()) {
-				log.info("getEffortDetails received: {}", input);
+				log.info("getSampleDetails received: {}", input);
 			}
 			SampleDetail det = new SampleDetail();
 			det.setRequestId(input);

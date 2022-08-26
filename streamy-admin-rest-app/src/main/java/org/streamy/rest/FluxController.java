@@ -28,7 +28,7 @@ public class FluxController {
     @Autowired
     private SampleGateway sampleGateway;
 
-    @GetMapping("/requestResponse")
+    @GetMapping("/sampleDetails")
     public Mono<ResponseEntity<List<SampleDetail>>> getEfforts() {
         String value = "Random Input: " + UUID.randomUUID()
                                           .toString();

@@ -14,14 +14,14 @@ spring:
     password: "guest"
   cloud:
     function:
-      definition: getEffortDetails
+      definition: getSampleDetails
     stream:
       defaultBinder: rabbit
       bindings:
-        getEffortDetails-in-0:
+        getSampleDetails-in-0:
           destination: sample-details-req
           group: stream-sample-details-req
-        getEffortDetails-out-0:
+        getSampleDetails-out-0:
           destination: sample-details-resp
           content-type: application/json
           producer:
