@@ -24,7 +24,6 @@ import org.streamy.model.SampleDetail;
 
 import lombok.extern.slf4j.XSlf4j;
 @Configuration
-// @Import({SupplierConfig.class})
 @XSlf4j
 @IntegrationComponentScan
 @EnableBinding(AppConfig.SampleGatewayChannels.class)
@@ -80,16 +79,5 @@ public class AppConfig {
                                        ResolvableType.forClassWithGenerics(List.class, SampleDetail.class)))
                                .channel(SampleGateway.GATEWAY_CHAN_IN)
                                .get();
-    }
-
-    /*
-     * Without a function of some sort being defined, a phantom function gets
-     * mapped to /** and swagger doesn't work.
-     */
-    @Bean
-    public Supplier<String> nadda() {
-        return () -> {
-            return "yo";
-        };
     }
 }

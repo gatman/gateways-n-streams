@@ -1,5 +1,8 @@
 #trace: true
 #debug: true
+logging:
+    level:
+        org.springframework.cloud.stream.messaging.DirectWithAttributesChannel: DEBUG
 server:
   context-path:/
 
@@ -26,10 +29,6 @@ springdoc:
     # Name of swagger group to load upon entry.  Doesn't seem to affect us because we don't use groups. Not yet needed.
     urlsPrimaryName: swaggerGroup 
   
-logging:
-    level:
-        org.springframework.cloud.stream.messaging.DirectWithAttributesChannel: DEBUG
-
 spring:
   rabbit:
     host: "localhost"
@@ -39,6 +38,7 @@ spring:
   cloud:
     function:         
       defaultBinder: rabbit        
+    stream:  
       bindings:
         sample-details-req:
           destination: sample-details-req

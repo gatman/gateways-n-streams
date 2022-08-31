@@ -31,10 +31,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-function-web</artifactId>
-		</dependency>
+		
+<!-- Important not to add this if you want swagger. It installs a controller at /** -->		
+<!-- that install endpoints for all "Functions/Consumers/Suppliers that capture -->
+<!-- URL from swagger.-->		
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.cloud</groupId> -->
+<!-- 			<artifactId>spring-cloud-function-web</artifactId> -->
+<!-- 		</dependency> -->
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

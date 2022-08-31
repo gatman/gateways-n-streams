@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,15 +22,17 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/sample")
 @XSlf4j
 public class FluxController {
-
+    
     @Autowired
-    private SampleGateway sampleGateway;
+    private ApplicationContext appCtx;   
 
-    @GetMapping("/requestResponse")
-    public Mono<ResponseEntity<List<SampleDetail>>> getEfforts() {
+    @GetMapping("/sampleDetails")
+    public Mono<ResponseEntity<List<SampleDetail>>> getSampleDetails() {
         String value = "Random Input: " + UUID.randomUUID()
                                           .toString();
         log.info("Sending {} to getSampleDetails function", value);
+        
+        SampleGateway sampleGateway = appCtx.getBean(SampleGateway.class);
 
         List<SampleDetail> response = sampleGateway.getSampleDetails(value);
         

@@ -1,8 +1,9 @@
 #trace: true
 #debug: true
-server:
-  context-path:/
-
+logging:
+    level:
+        org.springframework.cloud.stream.messaging.DirectWithAttributesChannel: DEBUG
+        
 springdoc:
   api-docs:
     enabled: true
@@ -26,10 +27,7 @@ springdoc:
     # Name of swagger group to load upon entry.  Doesn't seem to affect us because we don't use groups. Not yet needed.
     urlsPrimaryName: swaggerGroup 
   
-logging:
-    level:
-        org.springframework.cloud.stream.messaging.DirectWithAttributesChannel: DEBUG
-#spring.cloud.stream.bindings.replies-in-0.destination=replies
+
 spring:
   rabbit:
     host: "localhost"
@@ -39,23 +37,14 @@ spring:
   cloud:
     function:         
       definition: getSampleDetails
-      bindings:
-        getSampleDetails-in-0:
-          destination: sample-details-resp
-          content-type: application/json
-          group: gateway-sample-details-resp
-    stream:  
       defaultBinder: rabbit        
+    stream:  
       bindings:
-#        getSampleDetails-out-0:
-#          destination: sample-details-req
-#          producer:
-#            required-groups: stream-sample-details-req
         sample-details-req: 
           destination: sample-details-req
           producer:
             required-groups: stream-sample-details-req
-#        getSampleDetails-in-0:
-#          destination: sample-details-resp
-#          content-type: application/json
-#          group: gateway-sample-details-resp
+        getSampleDetails-in-0:
+          destination: sample-details-resp
+          content-type: application/json
+          group: gateway-sample-details-resp
