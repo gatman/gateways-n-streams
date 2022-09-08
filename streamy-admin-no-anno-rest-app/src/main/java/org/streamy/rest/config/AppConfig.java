@@ -2,11 +2,13 @@ package org.streamy.rest.config;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.dsl.HeaderEnricherSpec;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
@@ -17,6 +19,7 @@ import org.streamy.model.SampleDetail;
 import lombok.extern.slf4j.XSlf4j;
 
 @Configuration
+@IntegrationComponentScan
 @XSlf4j
 public class AppConfig {
 
@@ -32,20 +35,23 @@ public class AppConfig {
     @Bean
     public StreamBridge streamBridge(@Autowired StreamBridge bridge) {
         return bridge;
+        
     }
 
-    public interface SampleGateway {
-        public List<SampleDetail> getSampleDetails(String input);
+    public interface GetSampleDetails extends Function<String, List<SampleDetail>> {
     }
 
+    public interface MessageConsumer extends Consumer<Message<List<SampleDetail>>> {
+    }
+    
     @Bean
     public IntegrationFlow requestFlow(StreamBridge streamBridge) {
-        return IntegrationFlows.from(SampleGateway.class)
+        return IntegrationFlows.from(GetSampleDetails.class)
                                .enrichHeaders(HeaderEnricherSpec::headerChannelsToString)
                                .handle(m -> streamBridge.send("sample-details-req", m))
                                .get();
     }
-    
+
     @Bean
     IntegrationFlow getSampleDetailsFlow(HeaderChannelRegistry channelRegistry) {
         return IntegrationFlows.from(MessageConsumer.class, gateway -> gateway.beanName("getSampleDetails"))
@@ -56,8 +62,4 @@ public class AppConfig {
                                .get();
     }
 
-
-    public interface MessageConsumer extends Consumer<Message<List<SampleDetail>>> {
-
-    }
 }
