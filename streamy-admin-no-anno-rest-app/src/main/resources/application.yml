@@ -2,7 +2,10 @@
 #debug: true
 logging:
     level:
-        org.springframework.cloud.stream.messaging.DirectWithAttributesChannel: DEBUG
+#        org.springframework.cloud.stream.messaging.DirectWithAttributesChannel: DEBUG
+        org.springframework.cloud.stream: DEBUG
+        org.springframework.integration: DEBUG
+        org.springframework.amqp: DEBUG
         
 springdoc:
   api-docs:
@@ -37,14 +40,26 @@ spring:
   cloud:
     function:         
       definition: getSampleDetails
-      defaultBinder: rabbit        
+      defaultBinder: rabbit
+      rabbit:
+        bindings:
+          getSampleDetails-in-0:
+            consumer:
+              auto-bind-dlq: true
+              republishToDlq: true        
+              dlq-ttl: 50000
+##              republishToDlq: true        
     stream:  
       bindings:
-        sample-details-req: 
+#        sample-details-req: 
+        getSampleDetails-out-0: 
           destination: sample-details-req
-          producer:
-            required-groups: stream-sample-details-req
+#          producer:
+#            required-groups: stream-sample-details-req
         getSampleDetails-in-0:
           destination: sample-details-resp
           content-type: application/json
-          group: gateway-sample-details-resp
+          group: get_sampl_dets
+#       getSampleDetailsErrors-in-0:
+#         destination: sample-details-req.get_sampl_dets.dlq
+#          

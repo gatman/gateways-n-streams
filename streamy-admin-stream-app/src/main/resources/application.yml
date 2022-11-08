@@ -12,17 +12,48 @@ spring:
     port: 5672
     username: "guest"
     password: "guest"
+#    bindings:
+#      getSampleDetails-in-0:
+#        consumer:      
+#          republishToDlq: false
+#      getSampleDetails-out-0:
+#        producer:      
+#          republishToDlq: false
+#          autoBindDlq: false
+# ;streamErrorHandler
   cloud:
     function:
       definition: getSampleDetails
+#      routing:
+#        enabled: true
     stream:
+#      default:
+        # you can also use error-handler-definition
+#        errorHandlerDefinition: streamErrorHandler
       defaultBinder: rabbit
-      bindings:
+      rabbit:
+        bindings:
+          getSampleDetails-in-0:
+            consumer:
+              auto-bind-dlq: true
+              republishToDlq: false
+              dlq-ttl: 50000
+      bindings:       
         getSampleDetails-in-0:
           destination: sample-details-req
-          group: stream-sample-details-req
+#          errorHandlerDefinition: streamErrorHandler
+          group: get_sampl_dets
+          consumer:
+            maxAttempts: 1
         getSampleDetails-out-0:
           destination: sample-details-resp
-          content-type: application/json
-          producer:
-            required-groups: gateway-sample-details-resp 
+#          producer:
+#            errorChannelEnabled: false
+#            autoBindDlq: false
+#            republishToDlq: false
+#          content-type: application/json
+#          producer:
+#            required-groups: gateway-sample-details-resp
+# 
+#
+#

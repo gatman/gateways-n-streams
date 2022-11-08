@@ -2,10 +2,14 @@ package org.streamy.stream.config;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.MessagingException;
+import org.springframework.messaging.support.ErrorMessage;
 import org.streamy.model.SampleDetail;
 
 import lombok.extern.slf4j.XSlf4j;
@@ -14,11 +18,22 @@ import lombok.extern.slf4j.XSlf4j;
 @XSlf4j
 public class FunctionConfig {
 	
+//    @Bean
+//    public Consumer<ErrorMessage> streamErrorHandler() {
+//        log.info("Returning Error Handler");
+//        return errMsg -> {
+//          log.error("received: {}", errMsg.getPayload().getMessage());
+//        };
+//    }
+    
 	@Bean
 	Function<String, List<SampleDetail>> getSampleDetails() {
 		return input -> {
 			if (log.isInfoEnabled()) {
 				log.info("getSampleDetails received: {}", input);
+			}
+			if ( input.equals("die")) {
+			    throw new RuntimeException("Forcing error for testing exception handling");
 			}
 			SampleDetail det = new SampleDetail();
 			det.setRequestId(input);
@@ -55,5 +70,7 @@ public class FunctionConfig {
 			return ret;
 		};
 	}
+	
+	
 
 }
